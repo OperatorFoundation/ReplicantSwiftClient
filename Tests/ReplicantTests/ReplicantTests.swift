@@ -38,54 +38,6 @@ import Logging
 
 class ReplicantTests: XCTestCase
 {
-    func testServerConfigEncode()
-    {
-        let testIPString = "127.0.0.1"
-        let testPort: UInt16 = 1234
-        let host = NWEndpoint.Host(testIPString)
-        guard let port = NWEndpoint.Port(rawValue: testPort)
-            else
-        {
-            print("\nUnable to initialize port.\n")
-            XCTFail()
-            return
-        }
-        
-        let serverConfig = ServerConfig(withPort: port, andHost: host)
-                
-        XCTAssertNotNil(serverConfig.createSong())
-    }
-    
-    func testServerConfigDecode()
-    {
-        let testIPString = "127.0.0.1"
-        let testPort: UInt16 = 1234
-        let host = NWEndpoint.Host(testIPString)
-        guard let port = NWEndpoint.Port(rawValue: testPort)
-            else
-        {
-            print("\nUnable to initialize port.\n")
-            XCTFail()
-            return
-        }
-        
-        let serverConfig = ServerConfig(withPort: port, andHost: host)
-        guard let configData: Data = serverConfig.createSong()
-        else
-        {
-            XCTFail()
-            return
-        }
-        
-        guard let decodedConfig = ServerConfig(data: configData)
-        else
-        {
-            XCTFail()
-            return
-        }
-        
-        XCTAssertEqual(serverConfig, decodedConfig)
-    }
     
     func testEmptyConfigConnection()
     {
@@ -143,13 +95,8 @@ class ReplicantTests: XCTestCase
 
     func testConnection()
     {
-        let chunkSize: UInt16 = 2000
-        let chunkTimeout: Int = 1000
-        // let aesOverheadSize = 113
-        // let unencryptedChunkSize = chunkSize - UInt16(aesOverheadSize + 2)
         let testIPString = "127.0.0.1"
         let testPort: UInt16 = 1234
-        let serverPublicKey = P256.KeyAgreement.PrivateKey().publicKey
         let connected = expectation(description: "Connection callback called")
         let sent = expectation(description: "TCP data sent")
         

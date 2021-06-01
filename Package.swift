@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "ReplicantSwiftClient",
     platforms: [
-        .macOS(.v10_15)
+        .macOS(.v11)
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -15,11 +15,11 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
-        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.6.0"),
-        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.2.0"),
-        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.0.3"),
-        .package(url: "https://github.com/OperatorFoundation/Flower.git", from: "0.1.0"),
-        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.0.2"),
+        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.8.6"),
+        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.5"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.0"),
+        .package(url: "https://github.com/OperatorFoundation/Flower.git", from: "0.1.3"),
+        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.0.4"),
         .package(url: "https://github.com/OperatorFoundation/NetworkLinux.git", from: "0.2.0"),
     ],
     targets: [
@@ -36,7 +36,7 @@ let package = Package(
             .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux])),
         ]),
 
-        .testTarget(name: "ReplicantTests", dependencies: ["ReplicantSwift", .product(name: "Logging", package: "swift-log"), "Datable"]),
+        .testTarget(name: "ReplicantTests", dependencies: ["Replicant", "ReplicantSwift", .product(name: "Logging", package: "swift-log"), "Datable"]),
     ],
     swiftLanguageVersions: [.v5]
 )

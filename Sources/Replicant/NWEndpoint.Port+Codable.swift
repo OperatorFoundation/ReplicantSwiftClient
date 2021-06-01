@@ -27,6 +27,7 @@
 
 import Foundation
 import Network
+import ReplicantSwift
 
 extension NWEndpoint.Port: Encodable
 {
