@@ -3,17 +3,47 @@
 
 import PackageDescription
 
+#if os(iOS) || os(macOS) || os(watchOS) || os(tvOS)
 let package = Package(
     name: "ReplicantSwiftClient",
     platforms: [
         .macOS(.v11)
     ],
     products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(name: "Replicant", targets: ["Replicant"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
+        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.8.6"),
+        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.5"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.0"),
+        .package(url: "https://github.com/OperatorFoundation/Flower.git", from: "0.1.3"),
+        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.0.4"),
+    ],
+    targets: [
+        .target(name: "Replicant", dependencies: [
+            "Transport",
+            "ReplicantSwift",
+            "SwiftQueue",
+            "Datable",
+            "Flower",
+            .product(name: "Logging", package: "swift-log"),
+        ]),
+
+        .testTarget(name: "ReplicantTests", dependencies: ["Replicant", "ReplicantSwift", .product(name: "Logging", package: "swift-log"), "Datable"]),
+    ],
+    swiftLanguageVersions: [.v5]
+)
+#elseif os(Linux)
+let package = Package(
+    name: "ReplicantSwiftClient",
+    platforms: [
+        .macOS(.v11)
+    ],
+    products: [
+        .library(name: "Replicant", targets: ["Replicant"]),
+    ],
+    dependencies: [
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
         .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.8.6"),
         .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.5"),
@@ -23,9 +53,6 @@ let package = Package(
         .package(url: "https://github.com/OperatorFoundation/NetworkLinux.git", from: "0.2.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-
         .target(name: "Replicant", dependencies: [
             "Transport",
             "ReplicantSwift",
@@ -33,10 +60,11 @@ let package = Package(
             "Datable",
             "Flower",
             .product(name: "Logging", package: "swift-log"),
-            .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux])),
+            .product(name: "NetworkLinux", package: "NetworkLinux"),
         ]),
 
         .testTarget(name: "ReplicantTests", dependencies: ["Replicant", "ReplicantSwift", .product(name: "Logging", package: "swift-log"), "Datable"]),
     ],
     swiftLanguageVersions: [.v5]
 )
+#endif
