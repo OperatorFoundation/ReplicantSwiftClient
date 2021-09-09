@@ -5,9 +5,9 @@ import PackageDescription
 
 #if os(iOS) || os(macOS) || os(watchOS) || os(tvOS)
 let package = Package(
-    name: "ReplicantSwift",
+    name: "ReplicantSwiftClient",
     platforms: [.macOS(.v11)],
-    products: [.library(name: "ReplicantSwift", targets: ["ReplicantSwift"])],
+    products: [.library(name: "ReplicantSwiftClient", targets: ["ReplicantSwiftClient"])],
     dependencies: [
         .package(url: "https://github.com/OperatorFoundation/Keychain.git",
                  from: "0.1.2"),
@@ -27,7 +27,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "ReplicantSwift",
+            name: "ReplicantSwiftClient",
             dependencies: [
                 "Datable",
                 "Monolith",
@@ -40,15 +40,15 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "ReplicantSwiftTests",
-            dependencies: ["ReplicantSwift"]),
+            name: "ReplicantSwiftClientTests",
+            dependencies: ["ReplicantSwiftClient"]),
     ],
     swiftLanguageVersions: [.v5]
 )
 #elseif os(Linux)
 let package = Package(
-    name: "ReplicantSwift",
-    products: [.library(name: "ReplicantSwift", targets: ["ReplicantSwift"])],
+    name: "ReplicantSwiftClient",
+    products: [.library(name: "ReplicantSwiftClient", targets: ["ReplicantSwiftClient"])],
     dependencies: [
         .package(url: "https://github.com/apple/swift-crypto.git",
                  from: "1.1.2"),
@@ -69,7 +69,7 @@ let package = Package(
                  from: "0.1.0")],
     targets: [
         .target(
-            name: "ReplicantSwift",
+            name: "ReplicantSwiftClient",
             dependencies: [
                 "Datable",
                 "Monolith",
@@ -82,8 +82,8 @@ let package = Package(
                 .product(name: "Crypto", package: "swift-crypto")
             ]),
         .testTarget(
-            name: "ReplicantSwiftTests",
-            dependencies: ["ReplicantSwift"]),
+            name: "ReplicantSwiftClientTests",
+            dependencies: ["ReplicantSwiftClient"]),
     ],
     swiftLanguageVersions: [.v5])
 #endif

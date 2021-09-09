@@ -1,7 +1,7 @@
 import XCTest
 
-import ReplicantSwiftTests
+import ReplicantSwiftClientTests
 
 var tests = [XCTestCaseEntry]()
-tests += ReplicantSwiftTests.allTests()
+tests += ReplicantSwiftClientTests.allTests()
 XCTMain(tests)
