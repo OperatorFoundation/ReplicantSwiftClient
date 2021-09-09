@@ -28,6 +28,7 @@
 import Foundation
 import Logging
 
+import ReplicantSwift
 import Transport
 
 #if (os(macOS) || os(iOS) || os(watchOS) || os(tvOS))

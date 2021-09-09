@@ -9,21 +9,15 @@ let package = Package(
     platforms: [.macOS(.v11)],
     products: [.library(name: "ReplicantSwiftClient", targets: ["ReplicantSwiftClient"])],
     dependencies: [
-        .package(url: "https://github.com/OperatorFoundation/Keychain.git",
-                 from: "0.1.2"),
-        .package(url: "https://github.com/OperatorFoundation/Song.git",
-                 from: "0.1.1"),
-        .package(url: "https://github.com/apple/swift-log.git",
-                 from: "1.4.0"),
-        .package(url: "https://github.com/OperatorFoundation/Monolith.git",
-                 from: "1.0.2"),
-        .package(url: "https://github.com/OperatorFoundation/Datable.git",
-                 from: "3.0.4"),
+        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.0.4"),
+        .package(url: "https://github.com/OperatorFoundation/Monolith.git", from: "1.0.2"),
+        .package(url: "https://github.com/OperatorFoundation/Keychain.git", from: "0.1.2"),
+        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.10.0"),
+        .package(url: "https://github.com/OperatorFoundation/Song.git", from: "0.1.1"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.0"),
         .package(url: "https://github.com/OperatorFoundation/Transmission.git", from: "0.2.3"),
-        .package(url: "https://github.com/OperatorFoundation/Transport.git",
-                 from: "2.3.5"),
-        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git",
-                 from: "0.1.0")
+        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.5"),
     ],
     targets: [
         .target(
@@ -31,6 +25,7 @@ let package = Package(
             dependencies: [
                 "Datable",
                 "Monolith",
+                "ReplicantSwift",
                 "Song",
                 "SwiftQueue",
                 "Transmission",

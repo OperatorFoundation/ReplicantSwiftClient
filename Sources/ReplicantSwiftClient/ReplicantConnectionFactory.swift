@@ -28,6 +28,7 @@
 import Foundation
 import Logging
 
+import ReplicantSwift
 import SwiftQueue
 import Transport
 
