@@ -342,7 +342,7 @@ open class ReplicantConnection: Transport.Connection
         
         if let polishConnection = replicantClientModel.polish
         {
-            //bufferLock.enter()
+            bufferLock.enter()
             
             // Check to see if we have min length data in decrypted buffer before calling network receive. Skip the call if we do.
             if decryptedReceiveBuffer.count >= minimumIncompleteLength
@@ -357,7 +357,7 @@ open class ReplicantConnection: Transport.Connection
                 self.decryptedReceiveBuffer = self.decryptedReceiveBuffer[sliceLength...]
                 
                 completion(returnData, NWConnection.ContentContext.defaultMessage, false, nil)
-                //bufferLock.leave()
+                bufferLock.leave()
                 return
             }
             else
@@ -375,7 +375,7 @@ open class ReplicantConnection: Transport.Connection
                 let maybeReturnData = self.handleReceivedData(polishConnection: polishConnection, minimumIncompleteLength: minimumIncompleteLength, maximumLength: maximumLength, encryptedData: someData)
                 
                 completion(maybeReturnData, .defaultMessage, false, nil)
-                //self.bufferLock.leave()
+                self.bufferLock.leave()
                 return
             }
         }
