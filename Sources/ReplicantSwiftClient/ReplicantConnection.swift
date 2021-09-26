@@ -238,6 +238,7 @@ open class ReplicantConnection: Transport.Connection
     
     func sendBufferChunks(polishConnection: PolishConnection, contentContext: NWConnection.ContentContext, isComplete: Bool, completion: NWConnection.SendCompletion)
     {
+        log.debug("Replicant Client called sendBufferChunks")
         // Only encrypt and send over network when chunk size is available, leftovers to the buffer
         guard self.sendBuffer.count >= (unencryptedChunkSize)
             else
@@ -413,6 +414,7 @@ open class ReplicantConnection: Transport.Connection
     /// This takes an optional data and adds it to the buffer before acting on min/max lengths
     func handleReceivedData(polishConnection: PolishConnection, minimumIncompleteLength: Int, maximumLength: Int, encryptedData: Data) -> Data?
     {
+        log.debug("Replicant Client called handleReceivedData")
         // Try to decrypt the entire contents of the encrypted buffer
         guard let decryptedData = polishConnection.unpolish(polishedData: encryptedData)
         else
