@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/OperatorFoundation/Song.git", from: "0.1.1"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
         .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.0"),
-        .package(url: "https://github.com/OperatorFoundation/Transmission.git", from: "0.3.0"),
+        .package(url: "https://github.com/OperatorFoundation/Transmission.git", from: "0.3.1"),
         .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.7"),
     ],
     targets: [
