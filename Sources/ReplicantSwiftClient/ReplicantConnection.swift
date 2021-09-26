@@ -343,6 +343,7 @@ open class ReplicantConnection: Transport.Connection
         
         if let polishConnection = replicantClientModel.polish
         {
+            self.log.debug("polish connection detected!")
             bufferLock.enter()
             
             // Check to see if we have min length data in decrypted buffer before calling network receive. Skip the call if we do.
@@ -363,6 +364,7 @@ open class ReplicantConnection: Transport.Connection
             }
             else
             {
+                self.log.debug("ReplicantSwiftClient receive called")
                 // Read ChunkSize amount of data
                 // Check to see if we got data, and that it is the right size
                 guard let someData = network.read(size: Int(polishConnection.chunkSize)), someData.count == polishConnection.chunkSize
@@ -373,6 +375,8 @@ open class ReplicantConnection: Transport.Connection
                     return
                 }
                 
+                self.log.debug("read from ReplicantSwiftClient receive finished")
+                
                 let maybeReturnData = self.handleReceivedData(polishConnection: polishConnection, minimumIncompleteLength: minimumIncompleteLength, maximumLength: maximumLength, encryptedData: someData)
                 
                 completion(maybeReturnData, .defaultMessage, false, nil)
@@ -382,6 +386,7 @@ open class ReplicantConnection: Transport.Connection
         }
         else
         {
+            self.log.debug("ReplicantSwiftClient receive called with minimumIncompleteLength")
             // Check to see if we got data
             guard let someData = network.read(size: minimumIncompleteLength)
             else
@@ -390,7 +395,9 @@ open class ReplicantConnection: Transport.Connection
                 completion(nil, .defaultMessage, false, NWError.posix(.ENODATA))
                 return
             }
-                        
+                  
+            self.log.debug("minimumIncompleteLength read from ReplicantSwiftClient receive finished")
+            
             completion(someData, .defaultMessage, false, nil)
             return
         }
