@@ -75,7 +75,7 @@ open class ReplicantConnection: Transport.Connection
         logger.debug("Initialized a Replicant Client Connection")
         
         #if (os(macOS) || os(iOS) || os(watchOS) || os(tvOS))
-        guard let newConnection = Transmission.Connection(host: "\(host)", port: Int(port.rawValue))
+        guard let newConnection = Transmission.Connection(host: "\(host)", port: Int(port.rawValue), logger: logger)
         else
         {
             logger.error("Failed to create replicant connection. NetworkConnectionFactory.connect returned nil.")
