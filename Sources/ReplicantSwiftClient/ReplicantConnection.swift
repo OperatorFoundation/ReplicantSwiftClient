@@ -388,7 +388,7 @@ open class ReplicantConnection: Transport.Connection
         {
             self.log.debug("ReplicantSwiftClient receive called with minimumIncompleteLength")
             // Check to see if we got data
-            guard let someData = network.read(size: minimumIncompleteLength)
+            guard let someData = network.read(maxSize: maximumLength)
             else
             {
                 self.log.error("\n🙋‍♀️  Read called but no data was receieved.\n")
