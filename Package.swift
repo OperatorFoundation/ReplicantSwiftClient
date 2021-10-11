@@ -6,18 +6,18 @@ import PackageDescription
 #if os(iOS) || os(macOS) || os(watchOS) || os(tvOS)
 let package = Package(
     name: "ReplicantSwiftClient",
-    platforms: [.macOS(.v11)],
+    platforms: [.macOS(.v10_15)],
     products: [.library(name: "ReplicantSwiftClient", targets: ["ReplicantSwiftClient"])],
     dependencies: [
-        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.1.0"),
-        .package(url: "https://github.com/OperatorFoundation/Monolith.git", from: "1.0.2"),
+        .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.1.1"),
+        .package(url: "https://github.com/OperatorFoundation/Monolith.git", from: "1.0.3"),
         .package(url: "https://github.com/OperatorFoundation/Keychain.git", from: "0.1.2"),
-        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.10.3"),
-        .package(url: "https://github.com/OperatorFoundation/Song.git", from: "0.1.1"),
+        .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.10.4"),
+        .package(url: "https://github.com/OperatorFoundation/Song.git", from: "0.2.1"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
-        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.0"),
-        .package(url: "https://github.com/OperatorFoundation/Transmission.git", from: "0.4.0"),
-        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.7"),
+        .package(url: "https://github.com/OperatorFoundation/SwiftQueue.git", from: "0.1.1"),
+        .package(url: "https://github.com/OperatorFoundation/Transmission.git", from: "0.4.1"),
+        .package(url: "https://github.com/OperatorFoundation/Transport.git", from: "2.3.8"),
     ],
     targets: [
         .target(
