@@ -386,9 +386,10 @@ open class ReplicantConnection: Transport.Connection
         }
         else
         {
-            self.log.debug("ReplicantSwiftClient receive called with minimumIncompleteLength")
+            self.log.debug("ReplicantSwiftClient receive called with no polish. minimumincompleteLength: \(minimumIncompleteLength)")
             // Check to see if we got data
-            guard let someData = network.read(maxSize: maximumLength)
+            // FIXME: which size should we use?
+            guard let someData = network.read(size: minimumIncompleteLength)
             else
             {
                 self.log.error("\n🙋‍♀️  Read called but no data was receieved.\n")
@@ -396,7 +397,7 @@ open class ReplicantConnection: Transport.Connection
                 return
             }
                   
-            self.log.debug("minimumIncompleteLength read from ReplicantSwiftClient receive finished")
+            self.log.debug("no polish read from ReplicantSwiftClient receive finished. minimumIncompleteLength\(minimumIncompleteLength), data size: \(someData.count)")
             
             completion(someData, .defaultMessage, false, nil)
             return
