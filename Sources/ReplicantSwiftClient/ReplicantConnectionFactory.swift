@@ -31,21 +31,16 @@ import Logging
 import ReplicantSwift
 import SwiftQueue
 import Transport
-
-#if os(Linux)
-import NetworkLinux
-#else
+import Transmission
+import TransmissionTransport
 import Network
-#endif
 
 open class ReplicantConnectionFactory: ConnectionFactory
 {
     public var name: String = "Replicant"
-    public var connection: Connection?
-    public var host: NWEndpoint.Host?
-    public var port: NWEndpoint.Port?
-    public var config: ReplicantConfig<SilverClientConfig>
-    
+    let host: NWEndpoint.Host
+    let port: NWEndpoint.Port
+    let config: ReplicantConfig<SilverClientConfig>
     let log: Logger
         
     public init?(ipString: String, portInt: UInt16, config: ReplicantConfig<SilverClientConfig>, logger: Logger)
@@ -64,15 +59,12 @@ open class ReplicantConnectionFactory: ConnectionFactory
         self.log = log
     }
     
-    public func connect(using parameters: NWParameters) -> Connection?
+    public func connect(using parameters: NWParameters) -> Transport.Connection?
     {
-        guard let currentHost = host, let currentPort = port
-            else
-        {
-            log.error("Unable to connect, host or port is nil.")
-            return nil
-        }
-        
-        return ReplicantConnection(host: currentHost, port: currentPort, parameters: parameters, config: config, logger: log)
+        // FIXME - figure out how to handled NWParameters
+        let connectionType = ConnectionType.tcp
+
+        guard let transmission = ReplicantConnection(host: host, port: port, type: connectionType, config: config, logger: log) else {return nil}
+        return TransmissionToTransportConnection(transmission)
     }
 }
