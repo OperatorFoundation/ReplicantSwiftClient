@@ -10,7 +10,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/OperatorFoundation/Datable.git", from: "3.1.1"),
         .package(url: "https://github.com/OperatorFoundation/Monolith.git", from: "1.0.3"),
-        .package(url: "https://github.com/OperatorFoundation/Keychain.git", from: "0.1.2"),
+        .package(url: "https://github.com/OperatorFoundation/Keychain.git", from: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/ReplicantSwift.git", from: "0.13.0"),
         .package(url: "https://github.com/OperatorFoundation/Song.git", from: "0.2.1"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.0"),
