@@ -64,7 +64,13 @@ open class ReplicantConnectionFactory: ConnectionFactory
         // FIXME - figure out how to handled NWParameters
         let connectionType = ConnectionType.tcp
 
-        guard let transmission = ReplicantConnection(host: host, port: port, type: connectionType, config: config, logger: log) else {return nil}
-        return TransmissionToTransportConnection(transmission)
+        let factory: () -> Transmission.Connection? =
+        {
+            () -> Transmission.Connection? in
+
+            return ReplicantConnection(host: self.host, port: self.port, type: connectionType, config: self.config, logger: self.log)
+        }
+
+        return TransmissionToTransportConnection(factory)
     }
 }
