@@ -381,7 +381,7 @@ open class ReplicantConnection: Transmission.Connection
         }
     }
 
-    @objc func chunkTimeout()
+    func chunkTimeout()
     {
         // Lock so that send isn't called while we're working
         bufferLock.enter()
