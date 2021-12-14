@@ -33,7 +33,7 @@ import SwiftQueue
 import Transport
 import Transmission
 import TransmissionTransport
-import Network
+import Net
 
 open class ReplicantConnectionFactory: ConnectionFactory
 {
