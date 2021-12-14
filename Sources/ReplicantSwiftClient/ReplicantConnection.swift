@@ -30,7 +30,7 @@ import Logging
 import ReplicantSwift
 
 import Crypto
-import Network
+import Net
 import Transmission
 
 open class ReplicantConnection: Transmission.Connection
