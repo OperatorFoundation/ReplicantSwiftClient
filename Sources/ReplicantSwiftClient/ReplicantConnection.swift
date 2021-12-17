@@ -59,9 +59,18 @@ open class ReplicantConnection: Transmission.Connection
                              config: ReplicantConfig<SilverClientConfig>,
                              logger: Logger)
     {
-        logger.debug("Initialized a Replicant Client Connection")
+        var maybeHostString: String? = nil
+        switch host
+        {
+            case .ipv4(let ipv4):
+                let data = ipv4.rawValue
+                maybeHostString = "\(data[0]).\(data[1]).\(data[2]).\(data[3])"
+            default:
+                maybeHostString = nil
+        }
+        guard let hostString = maybeHostString else {return nil}
 
-        guard let newConnection = TransmissionConnection(host: "\(host)", port: Int(port.rawValue), type: .tcp, logger: logger)
+        guard let newConnection = TransmissionConnection(host: hostString, port: Int(port.rawValue), type: .tcp, logger: logger)
         else
         {
             logger.error("Failed to create replicant connection. NetworkConnectionFactory.connect returned nil.")
