@@ -53,24 +53,9 @@ open class ReplicantConnection: Transmission.Connection
 
     var network: Transmission.Connection
 
-    public convenience init?(host: NWEndpoint.Host,
-                             port: NWEndpoint.Port,
-                             type: ConnectionType,
-                             config: ReplicantConfig<SilverClientConfig>,
-                             logger: Logger)
+    public convenience init?(type: ConnectionType, config: ReplicantConfig<SilverClientConfig>, logger: Logger)
     {
-        var maybeHostString: String? = nil
-        switch host
-        {
-            case .ipv4(let ipv4):
-                let data = ipv4.rawValue
-                maybeHostString = "\(data[0]).\(data[1]).\(data[2]).\(data[3])"
-            default:
-                maybeHostString = nil
-        }
-        guard let hostString = maybeHostString else {return nil}
-
-        guard let newConnection = TransmissionConnection(host: hostString, port: Int(port.rawValue), type: .tcp, logger: logger)
+        guard let newConnection = TransmissionConnection(host: config.serverIP, port: Int(config.port), type: .tcp, logger: logger)
         else
         {
             logger.error("Failed to create replicant connection. NetworkConnectionFactory.connect returned nil.")
@@ -79,6 +64,33 @@ open class ReplicantConnection: Transmission.Connection
 
         self.init(connection: newConnection, config: config, logger: logger)
     }
+    
+//    public convenience init?(host: NWEndpoint.Host,
+//                             port: NWEndpoint.Port,
+//                             type: ConnectionType,
+//                             config: ReplicantConfig<SilverClientConfig>,
+//                             logger: Logger)
+//    {
+//        var maybeHostString: String? = nil
+//        switch host
+//        {
+//            case .ipv4(let ipv4):
+//                let data = ipv4.rawValue
+//                maybeHostString = "\(data[0]).\(data[1]).\(data[2]).\(data[3])"
+//            default:
+//                maybeHostString = nil
+//        }
+//        guard let hostString = maybeHostString else {return nil}
+//
+//        guard let newConnection = TransmissionConnection(host: hostString, port: Int(port.rawValue), type: .tcp, logger: logger)
+//        else
+//        {
+//            logger.error("Failed to create replicant connection. NetworkConnectionFactory.connect returned nil.")
+//            return nil
+//        }
+//
+//        self.init(connection: newConnection, config: config, logger: logger)
+//    }
 
     public init?(connection: Transmission.Connection,
                  config: ReplicantConfig<SilverClientConfig>,

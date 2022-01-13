@@ -43,18 +43,10 @@ open class ReplicantConnectionFactory: ConnectionFactory
     let config: ReplicantConfig<SilverClientConfig>
     let log: Logger
         
-    public init?(ipString: String, portInt: UInt16, config: ReplicantConfig<SilverClientConfig>, logger: Logger)
+    public init(config: ReplicantConfig<SilverClientConfig>, log: Logger)
     {
-        self.host = NWEndpoint.Host(ipString)
-        self.port = NWEndpoint.Port(integerLiteral: portInt)
-        self.config = config
-        self.log = logger
-    }
-
-    public init(host: String, port: UInt16, config: ReplicantConfig<SilverClientConfig>, log: Logger)
-    {
-        self.host = NWEndpoint.Host(host)
-        self.port = NWEndpoint.Port(integerLiteral: port)
+        self.host = NWEndpoint.Host(config.serverIP)
+        self.port = NWEndpoint.Port(integerLiteral: config.port)
         self.config = config
         self.log = log
     }
@@ -68,7 +60,7 @@ open class ReplicantConnectionFactory: ConnectionFactory
         {
             () -> Transmission.Connection? in
 
-            return ReplicantConnection(host: self.host, port: self.port, type: connectionType, config: self.config, logger: self.log)
+            return ReplicantConnection(type: connectionType, config: self.config, logger: self.log)
         }
 
         return TransmissionToTransportConnection(factory)
