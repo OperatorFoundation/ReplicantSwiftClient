@@ -40,10 +40,10 @@ open class ReplicantConnectionFactory: ConnectionFactory
     public var name: String = "Replicant"
     let host: NWEndpoint.Host
     let port: NWEndpoint.Port
-    let config: ReplicantConfig<SilverClientConfig>
+    let config: ReplicantConfig
     let log: Logger
         
-    public init(config: ReplicantConfig<SilverClientConfig>, log: Logger)
+    public init(config: ReplicantConfig, log: Logger)
     {
         self.host = NWEndpoint.Host(config.serverIP)
         self.port = NWEndpoint.Port(integerLiteral: config.port)

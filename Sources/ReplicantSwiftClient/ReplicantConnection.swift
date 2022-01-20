@@ -39,7 +39,7 @@ open class ReplicantConnection: Transmission.Connection
     public let payloadLengthOverhead = 2
     public var stateUpdateHandler: ((NWConnection.State) -> Void)?
     public var viabilityUpdateHandler: ((Bool) -> Void)?
-    public var config: ReplicantConfig<SilverClientConfig>
+    public var config: ReplicantConfig
     public var replicantClientModel: ReplicantClientModel
     public var log: Logger
 
@@ -53,7 +53,7 @@ open class ReplicantConnection: Transmission.Connection
 
     var network: Transmission.Connection
 
-    public convenience init?(type: ConnectionType, config: ReplicantConfig<SilverClientConfig>, logger: Logger)
+    public convenience init?(type: ConnectionType, config: ReplicantConfig, logger: Logger)
     {
         guard let newConnection = TransmissionConnection(host: config.serverIP, port: Int(config.port), type: .tcp, logger: logger)
         else
@@ -93,7 +93,7 @@ open class ReplicantConnection: Transmission.Connection
 //    }
 
     public init?(connection: Transmission.Connection,
-                 config: ReplicantConfig<SilverClientConfig>,
+                 config: ReplicantConfig,
                  logger: Logger)
     {
         let newReplicant = ReplicantClientModel(withConfig: config, logger: logger)
@@ -128,7 +128,7 @@ open class ReplicantConnection: Transmission.Connection
     public func write(data: Data) -> Bool
     {
         log.debug("\n💌 Send called on Replicant connection.")
-        if let polishConnection = replicantClientModel.polish
+        if let polishConnection = getPolishConnection()
         {
             // Lock so that the timer cannot fire and change the buffer. Unlock in the network send() callback.
             bufferLock.enter()
@@ -222,7 +222,7 @@ open class ReplicantConnection: Transmission.Connection
     {
         log.debug("\n🙋‍♀️  Replicant connection receive called.\n")
 
-        if let polishConnection = replicantClientModel.polish
+        if let polishConnection = getPolishConnection()
         {
             self.log.debug("polish connection detected!")
             bufferLock.enter()
@@ -373,7 +373,7 @@ open class ReplicantConnection: Transmission.Connection
                 return
             }
 
-            if var polishConnection = self.replicantClientModel.polish
+            if var polishConnection = self.getPolishConnection()
             {
                 polishConnection.handshake(connection: self)
                 {
@@ -414,7 +414,7 @@ open class ReplicantConnection: Transmission.Connection
 
         let payloadSize = sendBuffer.count
 
-        if let polishConnection = replicantClientModel.polish
+        if let polishConnection = getPolishConnection()
         {
             guard payloadSize > 0, payloadSize < polishConnection.chunkSize
             else
@@ -572,6 +572,35 @@ open class ReplicantConnection: Transmission.Connection
 
         let totalData = lengthData + data
         return self.write(data: totalData)
+    }
+    
+    func getPolishConnection() -> PolishConnection?
+    {
+        guard let polish = replicantClientModel.polish
+        else
+        {
+            print("We were unable to identify a valid polish config in the replicant config")
+            return nil
+        }
+        // Figure out which flavor of polish we are using
+        switch (replicantClientModel.config.polish)
+        {
+            // Currently silver is all there is, make sure we have a valid one
+            case .silver:
+                if let silverConnection = polish as? SilverClientConnection
+                {
+                    return silverConnection
+                }
+                else
+                {
+                    print("Failed to cast our client connection to a SilverClientConnection")
+                    return nil
+                }
+                
+            default:
+                print("attempted to write data with an unsupported polish type.")
+                return nil
+        }
     }
 }
 
