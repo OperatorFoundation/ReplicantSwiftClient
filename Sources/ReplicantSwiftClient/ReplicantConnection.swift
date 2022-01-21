@@ -577,11 +577,8 @@ open class ReplicantConnection: Transmission.Connection
     func getPolishConnection() -> PolishConnection?
     {
         guard let polish = replicantClientModel.polish
-        else
-        {
-            print("We were unable to identify a valid polish config in the replicant config")
-            return nil
-        }
+            else { return nil } // No Polish
+        
         // Figure out which flavor of polish we are using
         switch (replicantClientModel.config.polish)
         {
