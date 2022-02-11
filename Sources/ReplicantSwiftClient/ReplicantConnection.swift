@@ -345,7 +345,7 @@ open class ReplicantConnection: Transmission.Connection
         // Tone Burst
         if var toneBurst = self.replicantClientModel.toneBurst
         {
-            toneBurst.play(connection: self)
+            toneBurst.perform(connection: self)
             {
                 maybeError in
 
